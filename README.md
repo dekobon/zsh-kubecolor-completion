@@ -6,7 +6,7 @@ that provides autocompletions for the [kubecolor](https://github.com/dty1er/kube
 
 
 # Version
-| kubecolor | zsh-kubecolor-completion |
+| kubectl | zsh-kubecolor-completion |
 |:---:|:---:|
 | v1.12.2 | v0.1.6 |
 | v0.13.5 | v0.1.7 |
