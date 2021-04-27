@@ -1,13 +1,12 @@
-[![v1.13](https://img.shields.io/badge/kubectl-v1.13-blue.svg)](https://v1-13.docs.kubernetes.io)
-[![v0.1.12](https://img.shields.io/badge/version-v0.1.12-ff69b4.svg)](https://github.com/nnao45/zsh-kubectl-completion/releases/tag/v0.1.12)
+# dekobon/zsh-kubecolor-completion
+Rich [zsh](http://zsh.org) completion for the [kubecolor](https://github.com/dty1er/kubecolor) command.
 
-# nnao45/zsh-kubectl-completion
-Rich [zsh](http://zsh.org) completion for the [kubectl](https://kubernetes.io/docs/reference/kubectl) command.
+This is a not-well maintained fork of [nnao45/zsh-kubectl-completion](https://github.com/nnao45/zsh-kubectl-completion)
+that provides autocompletions for the [kubecolor](https://github.com/dty1er/kubecolor) command.
 
-[![asciicast](https://asciinema.org/a/247655.svg)](https://asciinema.org/a/247655)
 
 # Version
-| kubectl | zsh-kubectl-completion |
+| kubecolor | zsh-kubecolor-completion |
 |:---:|:---:|
 | v1.12.2 | v0.1.6 |
 | v0.13.5 | v0.1.7 |
@@ -22,26 +21,26 @@ Rich [zsh](http://zsh.org) completion for the [kubectl](https://kubernetes.io/do
 ## zplug
 write this in your `.zshrc`.
 ```bash
-zplug "nnao45/zsh-kubectl-completion"
+zplug "dekobon/zsh-kubecolor-completion"
 ```
 
 ## Prezto
 ```bash
-$ curl -fLo ~/.zprezto/modules/completion/external/src/_kubectl \
-  https://raw.githubusercontent.com/nnao45/zsh-kubectl-completion/master/_kubectl 
+$ curl -fLo ~/.zprezto/modules/completion/external/src/_kubecolor \
+  https://raw.githubusercontent.com/dekobon/zsh-kubecolor-completion/master/_kubecolor 
 $ exec zsh
 ```
 
 ## Manual
 for example, you set `~/.zsh/completion`, 
 ```bash
-$ curl -fLo ~/.zsh/completion_kubectl \ 
-  https://raw.githubusercontent.com/nnao45/zsh-kubectl-completion/master/_kubectl
+$ curl -fLo ~/.zsh/completion_kubecolor \ 
+  https://raw.githubusercontent.com/dekobon/zsh-kubecolor-completion/master/_kubecolor
 $ exec zsh
 ```
 
 # Resource Filitling
-This completion of kubectl has several flags corresponding to context override, for example, specify the namespace of the operation target --namespace flag should be set before entering resource name such as pod name So we will use the target namespace resource as a candidate for completion. The options supported for override are as follows.
+This completion of kubecolor has several flags corresponding to context override, for example, specify the namespace of the operation target --namespace flag should be set before entering resource name such as pod name So we will use the target namespace resource as a candidate for completion. The options supported for override are as follows.
 - --kubeconfig
 - --cluster
 - --user
@@ -55,7 +54,7 @@ If you want to complete list is "non grouped", you set additional attr.
 
 By default,
 ```bash
-$ kubectl describe namespaces <TAB>
+$ kubecolor describe namespaces <TAB>
 namespace
 kkk  jjj  iii  hhh  ggg  fff  eee  ddd  ccc  bbb  aaa
 vvv  uuu  ttt  sss  rrr  qqq  ppp  ooo  nnn  mmm  lll
@@ -64,12 +63,12 @@ zzz  yyy  xxx  www                                     -- Active
 
 Add this setting in your `.zshrc`,
 ```bash
-zstyle ':completion:*:*:kubectl:*' list-grouped false
+zstyle ':completion:*:*:kubecolor:*' list-grouped false
 ```
 
 Show this😍
 ```bash
-$ kubectl describe namespaces <TAB>
+$ kubecolor describe namespaces <TAB>
 namespace
 aaa  -- Active
 bbb  -- Active

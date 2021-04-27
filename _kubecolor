@@ -1,7 +1,7 @@
-#compdef kubectl
-# nnao45/zsh-kubectl-completion's version: v0.1.12
+#compdef kubecolor
+# nnao45/zsh-kubecolor-completion's version: v0.1.12
 #
-# Support kubectl version v1.13.5
+# Support kubecolor version v1.13.5
 # Inspired by
 #   https://github.com/zsh-users/zsh-completionsrfe/blob/master/src/_golang
 #   https://github.com/felixr/docker-zsh-completion/blob/master/_docker
@@ -29,11 +29,11 @@ __parse_kube_get(){
   fi
 
   if [ ${1} = 'api-resources' ]; then
-    eval kubectl ${1} ${_ns} ${_cl} ${_ur} ${_cx} ${_sv} ${_kc} -o wide 2>/dev/null
+    eval kubecolor ${1} ${_ns} ${_cl} ${_ur} ${_cx} ${_sv} ${_kc} -o wide 2>/dev/null
   elif [ ${1} = 'contexts' ]; then
-    eval kubectl config get-contexts ${_ns} ${_cl} ${_ur} ${_cx} ${_sv} ${_kc} 2>/dev/null
+    eval kubecolor config get-contexts ${_ns} ${_cl} ${_ur} ${_cx} ${_sv} ${_kc} 2>/dev/null
   else
-    eval kubectl get ${1} ${_ns} ${_cl} ${_ur} ${_cx} ${_sv} ${_kc} -o wide 2>/dev/null
+    eval kubecolor get ${1} ${_ns} ${_cl} ${_ur} ${_cx} ${_sv} ${_kc} -o wide 2>/dev/null
   fi
 }
 
@@ -190,28 +190,28 @@ __kube_get_api_resources(){
   local -a comment
   case ${7} in
     explain)
-      comment='kubectl explain RESOURCE [options]'
+      comment='kubecolor explain RESOURCE [options]'
     ;;
     get)
-      comment='kubectl get [(-o|--output=)json|yaml|wide|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...](TYPE[.VERSION][.GROUP] [NAME | -l label] | TYPE[.VERSION][.GROUP]/NAME ...) [flags] [options]'
+      comment='kubecolor get [(-o|--output=)json|yaml|wide|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...](TYPE[.VERSION][.GROUP] [NAME | -l label] | TYPE[.VERSION][.GROUP]/NAME ...) [flags] [options]'
     ;;
     describe)
-      comment='kubectl describe (-f FILENAME | TYPE [NAME_PREFIX | -l label] | TYPE/NAME) [options]'
+      comment='kubecolor describe (-f FILENAME | TYPE [NAME_PREFIX | -l label] | TYPE/NAME) [options]'
     ;;
     delete)
-      comment='kubectl delete ([-f FILENAME] | TYPE [(NAME | -l label | --all)]) [options]'
+      comment='kubecolor delete ([-f FILENAME] | TYPE [(NAME | -l label | --all)]) [options]'
     ;;
     patch)
-      comment='kubectl patch (-f FILENAME | TYPE NAME) -p PATCH [options]'
+      comment='kubecolor patch (-f FILENAME | TYPE NAME) -p PATCH [options]'
     ;;
     label)
-      comment='kubectl label [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version] [options]'
+      comment='kubecolor label [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version] [options]'
     ;;
     annotate)
-      comment='kubectl annotate [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version] [options]'
+      comment='kubecolor annotate [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version] [options]'
     ;;
     autoscale)
-      comment='kubectl autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) [--min=MINPODS] --max=MAXPODS [--cpu-percent=CPU] [options]'
+      comment='kubecolor autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) [--min=MINPODS] --max=MAXPODS [--cpu-percent=CPU] [options]'
     ;;
     *)
       comment='api resources'
@@ -226,16 +226,16 @@ __kube_get_api_resources2name(){
 
   case ${7} in
     wait)
-      comment='kubectl wait resource.group/name [--for=delete|--for condition=available] [options]'
+      comment='kubecolor wait resource.group/name [--for=delete|--for condition=available] [options]'
     ;;
     port-forward)
-      comment='kubectl port-forward TYPE/NAME [options] [LOCAL_PORT:]REMOTE_PORT [...[LOCAL_PORT_N:]REMOTE_PORT_N]'
+      comment='kubecolor port-forward TYPE/NAME [options] [LOCAL_PORT:]REMOTE_PORT [...[LOCAL_PORT_N:]REMOTE_PORT_N]'
     ;;
     edit)
-      comment='kubectl edit (RESOURCE/NAME | -f FILENAME) [options]'
+      comment='kubecolor edit (RESOURCE/NAME | -f FILENAME) [options]'
     ;;
     logs)
-      comment='kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]'
+      comment='kubecolor logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]'
     ;;
     *)
       comment='api resources'
@@ -368,7 +368,7 @@ __kube_rollout_resources2name(){
   _parse_list+=('daemonsets:daemonsets:__kube_get_daemonsets')
   _parse_list+=('deployments:deployments:__kube_get_deployments')
   _parse_list+=('statefulsets:statefulsets:__kube_get_statefulsets')
-  _values -S '/' 'kubectl rollout SUBCOMMAND [options]' $_parse_list && ret=0
+  _values -S '/' 'kubecolor rollout SUBCOMMAND [options]' $_parse_list && ret=0
 
   return ret
 }
@@ -662,7 +662,7 @@ __create_cmd(){
   'service[Create a service using specified subcommand.]'
   'serviceaccount[Create a service account with the specified name.]'
   )
-  _values 'kubectl create -f FILENAME [options]' $_create_cmds[@] && ret=0
+  _values 'kubecolor create -f FILENAME [options]' $_create_cmds[@] && ret=0
 
   return ret
 }
@@ -677,7 +677,7 @@ __expose_cmd(){
   'deployment:deployment:__kube_get_deployments'
   'replicaset'
   )
-  _values 'kubectl expose (-f FILENAME | TYPE NAME) [--port=port] [--protocol=TCP|UDP|SCTP] [--target-port=number-or-name] [--name=name] [--external-ip=external-ip-of-service] [--type=type] [options]' $_expose_cmds[@] && ret=0
+  _values 'kubecolor expose (-f FILENAME | TYPE NAME) [--port=port] [--protocol=TCP|UDP|SCTP] [--target-port=number-or-name] [--name=name] [--external-ip=external-ip-of-service] [--type=type] [options]' $_expose_cmds[@] && ret=0
 
   return ret
 }
@@ -693,7 +693,7 @@ __set_cmd(){
   'serviceaccount[Update ServiceAccount of a resource]'
   'subject[Update User, Group or ServiceAccount in a RoleBinding/ClusterRoleBinding]'
   )
-  _values 'kubectl set SUBCOMMAND [options]' $_set_cmds[@] && ret=0
+  _values 'kubecolor set SUBCOMMAND [options]' $_set_cmds[@] && ret=0
 
   return ret
 }
@@ -708,7 +708,7 @@ __rollout_cmd(){
   'status[Show the status of the rollout]'
   'undo[Undo a previous rollout]'
   )
-  _values 'kubectl rollout SUBCOMMAND [options]' $_rollout_cmds[@] && ret=0
+  _values 'kubecolor rollout SUBCOMMAND [options]' $_rollout_cmds[@] && ret=0
 
   return ret
 }
@@ -719,7 +719,7 @@ __scale_cmd() {
   _scale_cmds=(
   '--replicas[The new desired number of replicas. Required.]'
   )
-  _values 'kubectl scale [--resource-version=version] [--current-replicas=count] --replicas=COUNT (-f FILENAME | TYPE NAME) [options]' $_scale_cmds[@] && ret=0
+  _values 'kubecolor scale [--resource-version=version] [--current-replicas=count] --replicas=COUNT (-f FILENAME | TYPE NAME) [options]' $_scale_cmds[@] && ret=0
 
   return ret
 }
@@ -730,7 +730,7 @@ __hook_autoscale_cmd() {
   _hook_autoscale_cmds=(
   '--max[The upper limit for the number of pods that can be set by the autoscaler. Required.]'
   )
-  _values 'kubectl autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) [--min=MINPODS] --max=MAXPODS [--cpu-percent=CPU] [options]' $_hook_autoscale_cmds[@] && ret=0
+  _values 'kubecolor autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) [--min=MINPODS] --max=MAXPODS [--cpu-percent=CPU] [options]' $_hook_autoscale_cmds[@] && ret=0
 
   return ret
 }
@@ -765,7 +765,7 @@ __top_cmd(){
   'node[Display Resource (CPU/Memory/Storage) usage of nodes]'
   'pod[Display Resource (CPU/Memory/Storage) usage of pods]'
   )
-  _values 'kubectl top [flags] [options]' $_top_cmds[@] && ret=0
+  _values 'kubecolor top [flags] [options]' $_top_cmds[@] && ret=0
 
   return ret
 }
@@ -777,7 +777,7 @@ __auth_cmd(){
   'can-i[Check whether an action is allowed]'
   'reconcile[Reconciles rules for RBAC Role, RoleBinding, ClusterRole, and ClusterRole binding objects]'
   )
-  _values 'kubectl auth [flags] [options]' $_auth_cmds[@] && ret=0
+  _values 'kubecolor auth [flags] [options]' $_auth_cmds[@] && ret=0
 
   return ret
 }
@@ -794,7 +794,7 @@ __completion_cmd(){
   return ret
 }
 
-# No alpha commands are available in this version of kubectl
+# No alpha commands are available in this version of kubecolor
 # __alpha_cmd(){
 #   local -a _alpha_cmds
 #   integer ret=1
@@ -823,7 +823,7 @@ __config_cmd(){
   'use-context[Sets the current-context in a kubeconfig file]'
   'view[Display merged kubeconfig settings or a specified kubeconfig file]'
   )
-  _values 'kubectl config SUBCOMMAND [options]' $_config_cmds[@] && ret=0
+  _values 'kubecolor config SUBCOMMAND [options]' $_config_cmds[@] && ret=0
 
   return ret
 }
@@ -834,7 +834,7 @@ __plugin_cmd(){
   _plugin_cmds=(
   'list[list all visible plugin executables on a user'\''s PATH]'
   )
-  _values 'kubectl plugin [flags] [options]' $_plugin_cmds[@] && ret=0
+  _values 'kubecolor plugin [flags] [options]' $_plugin_cmds[@] && ret=0
 
   return ret
 }
@@ -878,7 +878,7 @@ __basic_cmd(){
   'label[Update the labels on a resource]'
   'annotate[Update the annotations on a resource]'
   'completion[Output shell completion code for the specified shell (bash or zsh)]'
-  # No alpha commands are available in this version of kubectl
+  # No alpha commands are available in this version of kubecolor
   # 'alpha[Commands for features in alpha]'
   'api-resources[Print the supported API resources on the server]'
   'api-versions[Print the supported API versions on the server, in the form of \"group/version\"]'
@@ -888,12 +888,12 @@ __basic_cmd(){
   'help[Help about any command]'
   'options[List of global command-line options (applies to all commands).]'
   )
-  _values 'kubectl [flags] [options]' $_basic_cmds[@] && ret=0
+  _values 'kubecolor [flags] [options]' $_basic_cmds[@] && ret=0
 
   return ret
 }
 
-_kubectl(){
+_kubecolor(){
   typeset -A opt_args
   integer ret=1
 
@@ -976,11 +976,11 @@ _kubectl(){
             '--edit[Edit the API resource before creating]' \
             '(-f --filename)'{-f,--filename}'[Filename, directory, or URL to files to use to create the resource]:files:_files' \
             '--help[Get more information about a this command help]' \
-            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubectl-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
+            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubecolor-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
             '--raw[Raw URI to POST to the server.  Uses the transport specified by the kubeconfig file.]' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
-            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.]' \
+            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubecolor apply on this object in the future.]' \
             '(-l --selector)'{-l,--selector}'[Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)]' \
             '--template[Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates \[http://golang.org/pkg/text/template/#pkg-overview\].]' \
             '--validate[If true, use a schema to validate the input before sending it]' \
@@ -1005,9 +1005,9 @@ _kubectl(){
             '--overrides[An inline JSON override for the generated object. If this is non-empty, it is used to override the generated object. Requires that the object supply a valid apiVersion field. ]' \
             '--port[The port that the service should serve on. Copied from the resource being exposed, if unspecified]' \
             '--protocol[The network protocol for the service to be created. Default is '\''TCP'\''.]' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
-            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.]' \
+            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubecolor apply on this object in the future.]' \
             '--selector[Selector (label query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
             '--session-affinity[If non-empty, set the session affinity for the service to this; legal values: '\''None'\'', '\''ClientIP'\'']' \
             '--target-port[Name or number for the port on the container that the service should direct traffic to. Optional.]' \
@@ -1020,7 +1020,7 @@ _kubectl(){
           _arguments \
             ${_global_flags[@]} \
             '--allow-missing-template-keys[If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.]' \
-            '--attach=[If true, wait for the Pod to start running, and then attach to the Pod as if '\''kubectl attach ...'\'' were called.  Default false, unless '\''-i/--stdin'\'' is set, in which case the default is true. With '\''--restart=Never'\'' the exit code of the container process is returned.]' \
+            '--attach=[If true, wait for the Pod to start running, and then attach to the Pod as if '\''kubecolor attach ...'\'' were called.  Default false, unless '\''-i/--stdin'\'' is set, in which case the default is true. With '\''--restart=Never'\'' the exit code of the container process is returned.]' \
             '--cascade[If true, cascade the deletion of the resources managed by this resource (e.g. Pods created by a ReplicationController).  Default true.]' \
             '--command[If true and extra arguments are present, use them as the 'command' field in the container, rather than the 'args' field which is the default.]' \
             '--dry-run[If true, only print the object that would be sent, without sending it.]' \
@@ -1037,18 +1037,18 @@ _kubectl(){
             '(-l --labels)'{-l,--labels}'[Labels to apply to the service created by this call.]' \
             '--leave-stdin-open[ If the pod is started in interactive mode or with stdin, leave stdin open after the first attach completes. By default, stdin will be closed after the first attach completes.]' \
             '--limits[The resource requirement limits for this container.  For example, '\''cpu=200m,memory=512Mi'\''.  Note that server side components may assign limits depending on the server configuration, such as limit ranges.]' \
-            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubectl-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
+            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubecolor-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
             '--overrides[An inline JSON override for the generated object. If this is non-empty, it is used to override the generated object. Requires that the object supply a valid apiVersion field. ]' \
             '--pod-running-timeout[The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running]' \
             '--port[The port that this container exposes.  If --expose is true, this is also the port used by the service that is created.]' \
             '--quiet[If true, suppress prompt messages.]' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
             '(-r --replicas)'{-r,--replicas}'[Number of replicas to create for this container. Default is 1.]' \
             '--requests[The resource requirement requests for this container.  For example, '\''cpu=100m,memory=256Mi'\''.  Note that server side components may assign requests depending on the server configuration, such as limit ranges.]' \
             '--restart[The restart policy for this Pod.  Legal values \[Always, OnFailure, Never\].  If set to '\''Always'\'' a deployment is created, if set to '\''OnFailure'\'' a job is created, if set to '\''Never'\'', a regular pod is created. For the latter two --replicas must be 1.  Default '\''Always'\'', for CronJobs '\''Never'\''.]' \
             '--rm[If true, delete resources created in this command for attached containers.]' \
-            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.]' \
+            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubecolor apply on this object in the future.]' \
             '--schedule[A schedule in the Cron format the job should be run with.]' \
             '--service-generator[The name of the generator to use for creating a service.  Only used if --expose is true]' \
             '--service-overrides[An inline JSON override for the generated service object. If this is non-empty, it is used to override the generated object. Requires that the object supply a valid apiVersion field.  Only used if --expose is true.]' \
@@ -1082,10 +1082,10 @@ _kubectl(){
             '--field-selector[Selector (field query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. --field-selector key1=value1,key2=value2). The server only supports a limited number of field queries per type.]' \
             '(-f --filename)'{-f,--filename}'[Filename, directory, or URL to files to use to create the resource]' \
             '--ignore-not-found[If the requested object does not exist the command will return exit code 0.]' \
-            '--include-uninitialized[If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., \"--all\". Objects with empty metadata.initializers are regarded as initialized.]' \
+            '--include-uninitialized[If true, the kubecolor command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubecolor commands apply to uninitialized objects, e.g., \"--all\". Objects with empty metadata.initializers are regarded as initialized.]' \
             '(-L --label-columns)'{-L,--label-columns}'[Accepts a comma separated list of labels that are going to be presented as columns. Names are case-sensitive. You can also use multiple flag options like -L label1 -L label2...]' \
             '--no-headers[When using the default or custom-column output format, don'\''t print headers (default print headers).]' \
-            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubectl-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
+            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubecolor-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
             '--raw[Raw URI to request from the server.  Uses the transport specified by the kubeconfig file.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
             '(-l --selector)'{-l,--selector}'[Selector (label query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
@@ -1106,12 +1106,12 @@ _kubectl(){
             ${_global_flags[@]} \
             '--allow-missing-template-keys[If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.]' \
             '(-f --filename)'{-f,--filename}'[Filename, directory, or URL to files to use to create the resource]:files:_files' \
-            '--include-uninitialized[If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., "--all". Objects with empty metadata.initializers are regarded as initialized.]' \
-            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubectl-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
+            '--include-uninitialized[If true, the kubecolor command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubecolor commands apply to uninitialized objects, e.g., "--all". Objects with empty metadata.initializers are regarded as initialized.]' \
+            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubecolor-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
             '--output-patch[Output the patch if the resource is edited.]' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
-            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.]' \
+            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubecolor apply on this object in the future.]' \
             '--template[Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates \[http://golang.org/pkg/text/template/#pkg-overview\].]' \
             '--validate[If true, use a schema to validate the input before sending it]' \
             '--windows-line-endings[Defaults to the line ending native to your platform.]' \
@@ -1128,9 +1128,9 @@ _kubectl(){
             '--force[Only used when grace-period=0. If true, immediately remove resources from API and bypass graceful deletion. Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation.]' \
             '--grace-period[Period of time in seconds given to the resource to terminate gracefully. Ignored if negative. Set to 1 for immediate shutdown. Can only be set to 0 when --force is true (force deletion).]' \
             '--ignore-not-found[Treat \"resource not found\" as a successful delete. Defaults to \"true\" when --all is specified.]' \
-            '--include-uninitialized[If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., "--all". Objects with empty metadata.initializers are regarded as initialized.]' \
+            '--include-uninitialized[If true, the kubecolor command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubecolor commands apply to uninitialized objects, e.g., "--all". Objects with empty metadata.initializers are regarded as initialized.]' \
             '--now[If true, resources are signaled for immediate shutdown (same as --grace-period=1).]' \
-            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubectl-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
+            '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=...See custom columns \[http://kubernetes.io/docs/user-guide/kubecolor-overview/#custom-columns\], golang template \[http://golang.org/pkg/text/template/#pkg-overview\] and jsonpath template \[http://kubernetes.io/docs/user-guide/jsonpath\].]:output_flag:__output_flag' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
             '(-l --selector)'{-l,--selector}'[Selector (label query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
             '--timeout[The length of time to wait before giving up on a delete, zero means determine a timeout from the size of the object]' \
@@ -1174,9 +1174,9 @@ _kubectl(){
             '--min[The lower limit for the number of pods that can be set by the autoscaler. If it'\''s not specified or negative, the server will apply a default value.]' \
             '--name[The name for the newly created object. If not specified, the name of the input resource will be used.]' \
             '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|name|go-template-file|templatefile|template|go-template|jsonpath|jsonpath-file.]:output_flag:__output_flag' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
-            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.]' \
+            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubecolor apply on this object in the future.]' \
             '--template[Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates \[http://golang.org/pkg/text/template/#pkg-overview\].]' \
             "1: :{_alternative ':get_resources:__kube_get_api_resources autoscale' }" \
             "2: :{_alternative ':get_resources:__hook_api_resources'}" \
@@ -1249,7 +1249,7 @@ _kubectl(){
             ${_global_flags[@]} \
             '--all-namespaces[If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.]' \
             '(-f --filename)'{-f,--filename}'[Filename, directory, or URL to files containing the resource to describe]:files:_files' \
-            '--include-uninitialized[If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., "--all". Objects with empty metadata.initializers are regarded as initialized.]' \
+            '--include-uninitialized[If true, the kubecolor command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubecolor commands apply to uninitialized objects, e.g., "--all". Objects with empty metadata.initializers are regarded as initialized.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
             '(-l --selector)'{-l,--selector}'[Selector (label query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
             '--show-events[If true, display events related to the described object.]' \
@@ -1321,7 +1321,7 @@ _kubectl(){
         ;;
 
         apply)
-          _values 'kubectl apply -f FILENAME [options]' \
+          _values 'kubecolor apply -f FILENAME [options]' \
             ${_global_flags[@]} \
             '--all[Select all resources in the namespace of the specified resource types.]' \
             '--allow-missing-template-keys[If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.]' \
@@ -1330,13 +1330,13 @@ _kubectl(){
             '(-f --filename)'{-f,--filename}'[that contains the configuration to apply]:files:_files' \
             '--force[Only used when grace-period=0. If true, immediately remove resources from API and bypass graceful deletion. Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation.]' \
             '--grace-period[Period of time in seconds given to the resource to terminate gracefully. Ignored if negative. Set to 1 for immediate shutdown. Can only be set to 0 when --force is true (force deletion).]' \
-            '--include-uninitialized[If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., \"--all\". Objects with empty metadata.initializers are regarded as initialized.]' \
+            '--include-uninitialized[If true, the kubecolor command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubecolor commands apply to uninitialized objects, e.g., \"--all\". Objects with empty metadata.initializers are regarded as initialized.]' \
             '--openapi-patch[If true, use openapi to calculate diff when the openapi presents and the resource can be found in the openapi spec. Otherwise, fall back to use baked-in types.]' \
             '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|name|go-template-file|templatefile|template|go-template|jsonpath|jsonpath-file.]:output_flag:__output_flag' \
             '--overwrite[Automatically resolve conflicts between the modified and live configuration by using values from the modified configuration]' \
             '--prune[Automatically delete resource objects, including the uninitialized ones, that do not appear in the configs and are created by either apply or create --save-config. Should be used with either -l or --all.]' \
             '--prune-whitelist[Overwrite the default whitelist with <group/version/kind> for --prune]' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
             '(-l --selector)'{-l,--selector}'[Selector (label query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
             '--template[Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates \[http://golang.org/pkg/text/template/#pkg-overview\].]' \
@@ -1357,7 +1357,7 @@ _kubectl(){
             '--local[If true, patch will operate on the content of the file, not the server-side resource.]' \
             '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|name|go-template-file|templatefile|template|go-template|jsonpath|jsonpath-file.]:output_flag:__output_flag' \
             '(-p --patch)'{-p,--patch}'[The patch to be applied to the resource JSON file.]' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
             '--template[Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates \[http://golang.org/pkg/text/template/#pkg-overview\].]' \
             '--type[The type of patch being provided; one of \[json merge strategic\]]' \
@@ -1373,7 +1373,7 @@ _kubectl(){
             '--grace-period[Period of time in seconds given to the resource to terminate gracefully. Ignored if negative. Set to 1 for immediate shutdown. Can only be set to 0 when --force is true (force deletion).]' \
             '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|name|go-template-file|templatefile|template|go-template|jsonpath|jsonpath-file.]:output_flag:__output_flag' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
-            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.]' \
+            '--save-config[If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubecolor apply on this object in the future.]' \
             '--template[Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates \[http://golang.org/pkg/text/template/#pkg-overview\].]' \
             '--timeout[The length of time to wait before giving up on a delete, zero means determine a timeout from the size of the object]' \
             '--validate[If true, use a schema to validate the input before sending it]' \
@@ -1413,12 +1413,12 @@ _kubectl(){
             '--dry-run[If true, only print the object that would be sent, without sending it.]' \
             '--field-selector[Selector (field query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
             '(-f --filename)'{-f,--filename}'[Filename, directory, or URL to files identifying the resource to update the labels]' \
-            '--include-uninitialized[If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., \"\-\-all\". Objects with empty metadata.initializers are regarded as initialized.]' \
+            '--include-uninitialized[If true, the kubecolor command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubecolor commands apply to uninitialized objects, e.g., \"\-\-all\". Objects with empty metadata.initializers are regarded as initialized.]' \
             '--list[If true, display the labels for a given resource.]' \
             '--local[If true, label will NOT contact api-server but run locally.]' \
             '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|name|go-template-file|templatefile|template|go-template|jsonpath|jsonpath-file.]:output_flag:__output_flag' \
             '--overwrite[If true, allow labels to be overwritten, otherwise reject label updates that overwrite existing labels.]' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
             '--resource-version[If non-empty, the labels update will only succeed if this is the current resource-version for the object. Only valid when specifying a single resource.]' \
             '(-l --selector)'{-l,--selector}'[Selector (label query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
@@ -1434,12 +1434,12 @@ _kubectl(){
             '--dry-run[If true, only print the object that would be sent, without sending it.]' \
             '--field-selector[Selector (field query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
             '(-f --filename)'{-f,--filename}'[Filename, directory, or URL to files identifying the resource to update the labels]' \
-            '--include-uninitialized[If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., \"\-\-all\". Objects with empty metadata.initializers are regarded as initialized.]' \
+            '--include-uninitialized[If true, the kubecolor command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubecolor commands apply to uninitialized objects, e.g., \"\-\-all\". Objects with empty metadata.initializers are regarded as initialized.]' \
             '--list[If true, display the labels for a given resource.]' \
             '--local[If true, label will NOT contact api-server but run locally.]' \
             '(-o --output)'{-o,--output}'[Output format. One of:json|yaml|name|go-template-file|templatefile|template|go-template|jsonpath|jsonpath-file.]:output_flag:__output_flag' \
             '--overwrite[If true, allow labels to be overwritten, otherwise reject label updates that overwrite existing labels.]' \
-            '--record[Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
+            '--record[Record current kubecolor command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.]' \
             '(-R --recursive)'{-R,--recursive}'[Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.]' \
             '--resource-version[If non-empty, the labels update will only succeed if this is the current resource-version for the object. Only valid when specifying a single resource.]' \
             '(-l --selector)'{-l,--selector}'[Selector (label query) to filter on, supports '\''='\'', '\''=='\'', and '\''!='\''.(e.g. -l key1=value1,key2=value2)]' \
@@ -1452,7 +1452,7 @@ _kubectl(){
            ${_global_flags[@]} \
            "1: :{_alternative ':completion_cmd:__completion_cmd' }" && ret=0
        ;;
-       #  No alpha commands are available in this version of kubectl
+       #  No alpha commands are available in this version of kubecolor
        #  alpha)
        #    _arguments \
        #      ${_global_flags[@]} \
